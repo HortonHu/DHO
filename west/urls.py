@@ -2,9 +2,10 @@
 
 
 from django.conf.urls import patterns, include, url
+from . import views
 
 urlpatterns = [
-    url(r'^staff/', 'west.views.staff'),
-    url(r'^templay/', 'west.views.templay'),
-    url(r'^investigate/', 'west.views.investigate'),
+    url(r'^staff/', views.staff),
+    url(r'^templay/', views.templay),
+    url(r'^investigate/', views.investigate),
 ]
