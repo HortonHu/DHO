@@ -16,11 +16,13 @@ Including another URLconf
 from django.conf.urls import url, include, patterns
 from django.contrib import admin
 
+from . import views
+
 admin.autodiscover()
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', 'DHO.views.first_page'),
+    url(r'^$', views.first_page),
     url(r'^west/', include('west.urls')),
     url(r'^users/', include('users.urls')),
 ]
