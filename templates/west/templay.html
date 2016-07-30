@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block mainbody %}
+
+{% for item in staffs %}
+<p>{{ item.id}}, {{ item }}</p>
+{% endfor %}
+
+{% endblock %}
