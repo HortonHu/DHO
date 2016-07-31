@@ -17,7 +17,7 @@ def user_login(request):
             return redirect('/')
     ctx = dict()
     ctx.update(csrf(request))
-    return render(request, 'login.html', ctx)
+    return render(request, 'users/login.html', ctx)
 
 
 def user_logout(request):

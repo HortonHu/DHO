@@ -14,13 +14,13 @@ class CharacterForm(forms.Form):
 
 def staff(request):
     staff_list = Character.objects.all()
-    return render(request, 'templay.html', {'staffs': staff_list})
+    return render(request, 'west/templay.html', {'staffs': staff_list})
 
 
 def templay(request):
     context = dict()
     context['label'] = 'Hello world!'
-    return render(request, 'templay.html', context)
+    return render(request, 'west/templay.html', context)
 
 
 def investigate(request):
@@ -36,4 +36,4 @@ def investigate(request):
     all_record = Character.objects.all()
     ctx['staff'] = all_record
     ctx['form'] = form
-    return render(request, 'investigate.html', ctx)
+    return render(request, 'west/investigate.html', ctx)
