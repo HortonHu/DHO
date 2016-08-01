@@ -8,8 +8,7 @@ from django.views.generic.base import View
 
 from wechat_sdk import WechatBasic, WechatConf
 from wechat_sdk.exceptions import ParseError
-from wechat_sdk.messages import TextMessage, ImageMessage, VoiceMessage, VideoMessage, ShortVideoMessage, \
-    LocationMessage, LinkMessage, EventMessage
+from wechat_sdk.messages import TextMessage, LocationMessage, EventMessage
 
 
 import wx_config
@@ -58,35 +57,11 @@ class Weixin(View):
         if isinstance(wechat.message, TextMessage):
             content = wechat.message.content                # 对应于 XML 中的 Content
             xml = wechat.response_text(content='您发送的信息类型是{}'.format(type))
-        # 图片
-        elif isinstance(wechat.message, ImageMessage):
-            picurl = wechat.message.picurl                  # 对应于 XML 中的 PicUrl
-            media_id = wechat.message.media_id              # 对应于 XML 中的 MediaId
-            xml = wechat.response_text(content='您发送的信息类型是{}'.format(type))
-
-        # 音频
-        elif isinstance(wechat.message, VoiceMessage):
-            media_id = wechat.message.media_id              # 对应于 XML 中的 MediaId
-            format = wechat.message.format                  # 对应于 XML 中的 Format
-            recognition = wechat.message.recognition        # 对应于 XML 中的 Recognition
-            xml = wechat.response_text(content='您发送的信息类型是{}'.format(type))
-        # 视频
-        elif isinstance(wechat.message, (VideoMessage, ShortVideoMessage)):
-            media_id = wechat.message.media_id              # 对应于 XML 中的 MediaId
-            thumb_media_id = wechat.message.thumb_media_id  # 对应于 XML 中的 ThumbMediaId
-            xml = wechat.response_text(content='您发送的信息类型是{}'.format(type))
         # 地理位置
         elif isinstance(wechat.message, LocationMessage):
             location = wechat.message.location              # Tuple(X, Y)，对应于 XML 中的 (Location_X, Location_Y)
             scale = wechat.message.scale                    # 对应于 XML 中的 Scale
             label = wechat.message.label                    # 对应于 XML 中的 Label
-            xml = wechat.response_text(content='您发送的信息类型是{}'.format(type))
-        # 链接
-        elif isinstance(wechat.message, LinkMessage):
-            title = wechat.message.title                    # 对应于 XML 中的 Title
-            description = wechat.message.description        # 对应于 XML 中的 Description
-            url = wechat.message.url                        # 对应于 XML 中的 Url
-            xml = wechat.response_text(content='您发送的信息类型是{}'.format(type))
         # 事件
         elif isinstance(wechat.message, EventMessage):
             if wechat.message.type == 'subscribe':          # 关注事件(包括普通关注事件和扫描二维码造成的关注事件)
@@ -112,8 +87,7 @@ class Weixin(View):
                 key = wechat.message.key                    # 对应于 XML 中的 EventKey
             xml = wechat.response_text(content='您发送的信息类型是{}'.format(type))
         else:
-            xml = wechat.response_text(content='你想要什么？')
-
+            xml = wechat.response_text(content="回复'功能'了解本公众号提供的查询功能")
         return HttpResponse(xml)
 
 
