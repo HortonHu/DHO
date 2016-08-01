@@ -5,3 +5,4 @@
 *.sqlite3
 /DHO_env/
 /weixin/wx_config.py
+/test.py
