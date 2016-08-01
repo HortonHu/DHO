@@ -26,5 +26,6 @@ urlpatterns = [
     url(r'^west/', include('west.urls')),
     url(r'^users/', include('users.urls')),
     url(r'^polls/', include('polls.urls')),
+    url(r'^weixin/', include('weixin.urls')),
 
 ]

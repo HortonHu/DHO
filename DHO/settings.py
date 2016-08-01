@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'west',
     'users',
+    'weixin',
 ]
 
 MIDDLEWARE_CLASSES = [
