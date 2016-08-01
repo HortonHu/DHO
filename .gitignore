@@ -3,3 +3,5 @@
 
 *.db
 *.sqlite3
+/DHO_env/
+/weixin/weixin.ini

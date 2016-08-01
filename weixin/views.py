@@ -9,9 +9,13 @@ from wechat_sdk import WechatBasic
 from wechat_sdk.exceptions import ParseError
 from wechat_sdk.messages import TextMessage
 
-WECHAT_TOKEN = 'nsdnsdjagnkvdka12315g53'
-AppID = ''
-AppSecret = ''
+import ConfigParser
+cf = ConfigParser.ConfigParser()
+cf.readfp(open('weixin.ini'))
+
+WECHAT_TOKEN = cf.get('weixin', 'WECHAT_TOKEN')
+AppID = cf.get('weixin', 'AppID')
+AppSecret = cf.get('weixin', 'AppSecret')
 
 # 实例化 WechatBasic
 wechat_instance = WechatBasic(
