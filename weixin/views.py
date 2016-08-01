@@ -5,15 +5,11 @@
 from django.http.response import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import View
-from django.template import loader, Context
 
 from wechat_sdk import WechatBasic, WechatConf
 from wechat_sdk.exceptions import ParseError
 from wechat_sdk.messages import TextMessage
 
-import time
-import hashlib
-from xml.etree import ElementTree as ET
 
 import wx_config
 
