@@ -4,5 +4,4 @@
 *.db
 *.sqlite3
 /DHO_env/
-/weixin/weixin.ini
 /weixin/wx_config.py

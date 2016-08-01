@@ -2,8 +2,8 @@
 
 
 from django.conf.urls import url
-from .views import index
+from .views import Weixin
 
 urlpatterns = [
-    url(r'^$', index),
+    url(r'^$', Weixin.as_view()),
 ]
