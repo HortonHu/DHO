@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# from __future__ import unicode_literals
+from __future__ import unicode_literals
 
 from django.http.response import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -27,7 +27,6 @@ class Weixin(View):
         return super(Weixin, self).dispatch(*args, **kwargs)
 
     def get(self, request):
-        # 接入时，微信的服务器发送过来的参数
         signature = request.GET.get('signature', None)
         timestamp = request.GET.get('timestamp', None)
         nonce = request.GET.get('nonce', None)
@@ -42,32 +41,30 @@ class Weixin(View):
         except ParseError:
             return HttpResponse('Invalid Body Text')
 
-        # 公共信息
-        id = wechat.message.id              # 对应于 XML 中的 MsgId
-        target = wechat.message.target      # 对应于 XML 中的 ToUserName
-        source = wechat.message.source      # 对应于 XML 中的 FromUserName
-        time = wechat.message.time          # 对应于 XML 中的 CreateTime
-        type = wechat.message.type          # 对应于 XML 中的 MsgType
-        raw = wechat.message.raw            # 原始 XML 文本，方便进行其他分析
+        id = wechat.message.id              # MsgId
+        target = wechat.message.target      # ToUserName
+        source = wechat.message.source      # FromUserName
+        time = wechat.message.time          # CreateTime
+        type = wechat.message.type          # MsgType
+        raw = wechat.message.raw            # 原始 XML 文本
 
-        # 接收消息类型：
-        # 文字
         if isinstance(wechat.message, TextMessage):
-            content = wechat.message.content                # 对应于 XML 中的 Content
-            xml = wechat.response_text(content='您发送的信息类型是{}'.format(type))
-        # 地理位置
+            content = wechat.message.content.strip()                # 对应于 XML 中的 Content
+            response_xml = wechat.response_text(content='您发送的信息类型是{}'.format(type))
         elif isinstance(wechat.message, LocationMessage):
-            location = wechat.message.location              # Tuple(X, Y)，对应于 XML 中的 (Location_X, Location_Y)
-            scale = wechat.message.scale                    # 对应于 XML 中的 Scale
-            label = wechat.message.label                    # 对应于 XML 中的 Label
-        # 事件
+            location = wechat.message.location              # Tuple(Location_X, Location_Y)
+            scale = wechat.message.scale                    # 地图缩放大小
+            label = wechat.message.label                    # 地理位置
+            user = Fowler.objects.get(OpenID=source)
+            user.location = label
+            user.save()
         elif isinstance(wechat.message, EventMessage):
             if wechat.message.type == 'subscribe':          # 关注事件(包括普通关注事件和扫描二维码造成的关注事件)
                 new_fowler = Fowler(OpenID=source, follow_time=time)
                 new_fowler.save()
                 key = wechat.message.key                    # 对应于 XML 中的 EventKey (普通关注事件时此值为 None)
                 ticket = wechat.message.ticket              # 对应于 XML 中的 Ticket (普通关注事件时此值为 None)
-                xml = wechat.response_text(content='您发送的信息类型是{},已被添加到数据库'.format(type))
+                response_xml = wechat.response_text(content='您发送的信息类型是{},已被添加到数据库'.format(type))
 
             elif wechat.message.type == 'unsubscribe':      # 取消关注事件（无可用私有信息）
                 pass
@@ -89,8 +86,8 @@ class Weixin(View):
                 key = wechat.message.key                    # 对应于 XML 中的 EventKey
 
         else:
-            xml = wechat.response_text(content="回复'功能'了解本公众号提供的查询功能")
-        return HttpResponse(xml)
+            response_xml = wechat.response_text(content="回复'功能'了解本公众号提供的查询功能")
+        return HttpResponse(response_xml)
 
 
 
