@@ -63,7 +63,7 @@ class Weixin(View):
         # 事件
         elif isinstance(wechat.message, EventMessage):
             if wechat.message.type == 'subscribe':          # 关注事件(包括普通关注事件和扫描二维码造成的关注事件)
-                new_fowler = Fowler(OpenID=source)
+                new_fowler = Fowler(OpenID=source, follow_time=time)
                 new_fowler.save()
                 key = wechat.message.key                    # 对应于 XML 中的 EventKey (普通关注事件时此值为 None)
                 ticket = wechat.message.ticket              # 对应于 XML 中的 Ticket (普通关注事件时此值为 None)
