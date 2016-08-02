@@ -67,6 +67,8 @@ class Weixin(View):
                 new_fowler.save()
                 key = wechat.message.key                    # 对应于 XML 中的 EventKey (普通关注事件时此值为 None)
                 ticket = wechat.message.ticket              # 对应于 XML 中的 Ticket (普通关注事件时此值为 None)
+                xml = wechat.response_text(content='您发送的信息类型是{},已被添加到数据库'.format(type))
+
             elif wechat.message.type == 'unsubscribe':      # 取消关注事件（无可用私有信息）
                 pass
             elif wechat.message.type == 'scan':             # 用户已关注时的二维码扫描事件
@@ -85,7 +87,7 @@ class Weixin(View):
             elif wechat.message.type in ['scancode_push', 'scancode_waitmsg', 'pic_sysphoto',
                                          'pic_photo_or_album', 'pic_weixin', 'location_select']:  # 其他事件
                 key = wechat.message.key                    # 对应于 XML 中的 EventKey
-            xml = wechat.response_text(content='您发送的信息类型是{}'.format(type))
+
         else:
             xml = wechat.response_text(content="回复'功能'了解本公众号提供的查询功能")
         return HttpResponse(xml)
