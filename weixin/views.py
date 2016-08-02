@@ -6,20 +6,18 @@ from django.http.response import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import View
 
+from models import Fowler
+
 from wechat_sdk import WechatBasic, WechatConf
 from wechat_sdk.exceptions import ParseError
 from wechat_sdk.messages import TextMessage, LocationMessage, EventMessage
 
-
-import wx_config
-
-# 实例化微信配置
-conf = WechatConf(
-    token=wx_config.WECHAT_TOKEN,
-    appid=wx_config.AppID,
-    appsecret=wx_config.AppSecret,
-    encrypt_mode='normal',
-)
+# 微信SDK配置
+conf = WechatConf(token='dfsdsg1g23s1gs53',
+                  appid='wxbc1c4c2e398996f7',
+                  appsecret='42b511b04df169de9c90e5b9509a1919',
+                  encrypt_mode='normal',
+                  )
 wechat = WechatBasic(conf=conf)
 
 
@@ -65,6 +63,8 @@ class Weixin(View):
         # 事件
         elif isinstance(wechat.message, EventMessage):
             if wechat.message.type == 'subscribe':          # 关注事件(包括普通关注事件和扫描二维码造成的关注事件)
+                new_fowler = Fowler(OpenID=source)
+                new_fowler.save()
                 key = wechat.message.key                    # 对应于 XML 中的 EventKey (普通关注事件时此值为 None)
                 ticket = wechat.message.ticket              # 对应于 XML 中的 Ticket (普通关注事件时此值为 None)
             elif wechat.message.type == 'unsubscribe':      # 取消关注事件（无可用私有信息）
