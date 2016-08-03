@@ -34,7 +34,7 @@ class Location(models.Model):
     fowler = models.ForeignKey(Fowler, on_delete=models.CASCADE)
     x = models.FloatField(verbose_name='经度')
     y = models.FloatField(verbose_name='纬度')
-    label = models.CharField(max_length=100, default='None', verbose_name='地理位置')
+    label = models.CharField(max_length=100, verbose_name='地理位置')
     time = models.DateTimeField(auto_now=True, verbose_name='时间')
 
     def __unicode__(self):
