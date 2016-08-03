@@ -9,7 +9,7 @@ class FowlerAdmin(admin.ModelAdmin):
     list_filter = ('follow_time',)
     date_hierarchy = 'follow_time'
 
-    fields = ('follow_time', )
+    # fields = ('follow_time', )
 
 
 admin.site.register(Fowler, FowlerAdmin)
