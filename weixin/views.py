@@ -51,8 +51,7 @@ class Weixin(View):
         fowler = Fowler.objects.get_or_create(OpenID=source)
 
         if isinstance(wechat.message, TextMessage):
-            keywords = map(lambda x: x[0], Function.objects.all().values_list('keyword'))
-
+            keywords = [func.keyword for func in Function.objects.all()]
             content = wechat.message.content                # 对应于 XML 中的 Content
             if content in keywords:
                 reply = Function.objects.get(keyword=content).explain
