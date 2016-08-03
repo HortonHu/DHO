@@ -36,6 +36,14 @@ class Weixin(View):
             return HttpResponse(echostr)
 
     def post(self, request):
+
+        signature = request.GET.get('signature', None)
+        timestamp = request.GET.get('timestamp', None)
+        nonce = request.GET.get('nonce', None)
+        echostr = request.GET.get('echostr', None)
+
+        if wechat.check_signature(signature, timestamp, nonce):
+            return HttpResponse(echostr)
         try:
             wechat.parse_data(request.body)
         except ParseError:
