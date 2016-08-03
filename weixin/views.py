@@ -48,7 +48,8 @@ class Weixin(View):
         type = wechat.message.type          # MsgType
         raw = wechat.message.raw            # 原始 XML 文本
 
-        fowler = Fowler.objects.get_or_create(OpenID=source)
+        # get_or_create会得到一个tuple (object, created)
+        fowler = Fowler.objects.get_or_create(OpenID=source)[0]
 
         if isinstance(wechat.message, TextMessage):
             keywords = [func.keyword for func in Function.objects.all()]
@@ -56,11 +57,11 @@ class Weixin(View):
             if content in keywords:
                 reply = Function.objects.get(keyword=content).explain
             else:
-                reply = '本公众号支持的回复有： ' + ''.join(keywords)
+                reply = '本公众号支持的回复有： \n' + ' '.join(keywords)
 
             dialog = Dialog(message=content, reply=reply, fowler=fowler)
             dialog.save()
-            response_xml = wechat.response_text(content=reply)
+            response_xml = wechat.response_text(content=reply, escape=True)
             return HttpResponse(response_xml)
 
         elif isinstance(wechat.message, LocationMessage):
