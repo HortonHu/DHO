@@ -89,6 +89,12 @@ class Weixin(View):
             rsp_xml = wechat.response_voice(media_id=media_id)
             return HttpResponse(rsp_xml)
 
+        elif isinstance(wechat.message, (VideoMessage, ShortVideoMessage)):
+            media_id = wechat.message.media_id
+            thumb_media_id = wechat.message.thumb_media_id
+            rsp_xml = wechat.response_voice(media_id=media_id)
+            return HttpResponse(rsp_xml)
+
         elif isinstance(wechat.message, EventMessage):
             if wechat.message.type == 'subscribe':
                 fowler.activate = 1
