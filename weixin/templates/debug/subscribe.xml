@@ -1,0 +1,7 @@
+<xml>
+<ToUserName><![CDATA[火辣辣的清凉油]]></ToUserName>
+<FromUserName><![CDATA[测试用户]]></FromUserName>
+<CreateTime>123456789</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[subscribe]]></Event>
+</xml>

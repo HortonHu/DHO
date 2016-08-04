@@ -75,7 +75,7 @@ class Weixin(View):
             return HttpResponse(response_xml)
 
         elif isinstance(wechat.message, EventMessage):
-            if wechat.message.type == 'subscribe':          # 关注事件(包括普通关注事件和扫描二维码造成的关注事件)
+            if wechat.message.type == 'subscribe':
                 fowler.activate = 1
                 fowler.save()
                 response_xml = wechat.response_text(content='欢迎关注本公众号 具体功能请回复‘功能’')
@@ -83,15 +83,6 @@ class Weixin(View):
             elif wechat.message.type == 'unsubscribe':
                 fowler.activate = 0
                 fowler.save()
-            elif wechat.message.type == 'click':            # 自定义菜单点击事件
-                key = wechat.message.key                    # 对应于 XML 中的 EventKey
-            elif wechat.message.type == 'view':             # 自定义菜单跳转链接事件
-                key = wechat.message.key                    # 对应于 XML 中的 EventKey
-            elif wechat.message.type == 'templatesendjobfinish':  # 模板消息事件
-                status = wechat.message.status              # 对应于 XML 中的 Status
-            elif wechat.message.type in ['scancode_push', 'scancode_waitmsg', 'pic_sysphoto',
-                                         'pic_photo_or_album', 'pic_weixin', 'location_select']:  # 其他事件
-                key = wechat.message.key                    # 对应于 XML 中的 EventKey
         else:
             response_xml = wechat.response_text(content="回复'功能'了解本公众号提供的查询功能")
             return HttpResponse(response_xml)
