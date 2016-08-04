@@ -92,7 +92,9 @@ class Weixin(View):
         elif isinstance(wechat.message, (VideoMessage, ShortVideoMessage)):
             media_id = wechat.message.media_id
             thumb_media_id = wechat.message.thumb_media_id
-            rsp_xml = wechat.response_voice(media_id=media_id)
+            rsp_xml = wechat.response_video(media_id=media_id,
+                                            title='视频标题是media_id:' + str(media_id),
+                                            description='视频描述是thumb_media_id:' + str(thumb_media_id))
             return HttpResponse(rsp_xml)
 
         elif isinstance(wechat.message, EventMessage):
