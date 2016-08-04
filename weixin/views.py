@@ -71,13 +71,18 @@ class Weixin(View):
 
             loc = Location(fowler=fowler, x=location[0], y=location[1], label=label)
             loc.save()
+            response_xml = wechat.response_text(content='已收到您的地理位置')
+            return HttpResponse(response_xml)
 
         elif isinstance(wechat.message, EventMessage):
             if wechat.message.type == 'subscribe':          # 关注事件(包括普通关注事件和扫描二维码造成的关注事件)
-                key = wechat.message.key                    # 对应于 XML 中的 EventKey (普通关注事件时此值为 None)
-                ticket = wechat.message.ticket              # 对应于 XML 中的 Ticket (普通关注事件时此值为 None)
-                response_xml = wechat.response_text(content='您发送的信息类型是{},已被添加到数据库'.format(type))
-
+                fowler.activate = 1
+                fowler.save()
+                response_xml = wechat.response_text(content='欢迎关注本公众号 具体功能请回复‘功能’')
+                return HttpResponse(response_xml)
+            elif wechat.message.type == 'unsubscribe':
+                fowler.activate = 0
+                fowler.save()
             elif wechat.message.type == 'click':            # 自定义菜单点击事件
                 key = wechat.message.key                    # 对应于 XML 中的 EventKey
             elif wechat.message.type == 'view':             # 自定义菜单跳转链接事件

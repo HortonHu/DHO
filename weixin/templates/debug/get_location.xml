@@ -1,0 +1,11 @@
+<xml>
+<ToUserName><![CDATA[火辣辣的清凉油]]></ToUserName>
+<FromUserName><![CDATA[测试用户]]></FromUserName>
+<CreateTime>1351776360</CreateTime>
+<MsgType><![CDATA[location]]></MsgType>
+<Location_X>23.134521</Location_X>
+<Location_Y>113.358803</Location_Y>
+<Scale>20</Scale>
+<Label><![CDATA[测试的位置信息]]></Label>
+<MsgId>1234567890123456</MsgId>
+</xml>
