@@ -56,13 +56,14 @@ class Weixin(View):
             content = wechat.message.content                # 对应于 XML 中的 Content
             if content in keywords:
                 reply = Function.objects.get(keyword=content).explain
+            elif content == "功能":
+                reply = "本公众号支持的回复有： \n" + " ".join(keywords)
             else:
-                reply = '本公众号支持的回复有： \n' + ' '.join(keywords)
-
+                reply = "回复'功能'了解本公众号提供的查询功能"
             dialog = Dialog(message=content, reply=reply, fowler=fowler)
             dialog.save()
-            response_xml = wechat.response_text(content=reply, escape=True)
-            return HttpResponse(response_xml)
+            rsp_xml = wechat.response_text(content=reply, escape=True)
+            return HttpResponse(rsp_xml)
 
         elif isinstance(wechat.message, LocationMessage):
             location = wechat.message.location              # Tuple(Location_X, Location_Y)
@@ -71,21 +72,22 @@ class Weixin(View):
 
             loc = Location(fowler=fowler, x=location[0], y=location[1], label=label)
             loc.save()
-            response_xml = wechat.response_text(content='已收到您的地理位置')
-            return HttpResponse(response_xml)
+            rsp_xml = wechat.response_text(content="已收到您的地理位置")
+            return HttpResponse(rsp_xml)
 
         elif isinstance(wechat.message, EventMessage):
             if wechat.message.type == 'subscribe':
                 fowler.activate = 1
                 fowler.save()
-                response_xml = wechat.response_text(content='欢迎关注本公众号 具体功能请回复‘功能’')
-                return HttpResponse(response_xml)
+                rsp_xml = wechat.response_text(content="欢迎关注本公众号\n回复'功能'了解本公众号提供的查询功能",
+                                               escape=True)
+                return HttpResponse(rsp_xml)
             elif wechat.message.type == 'unsubscribe':
                 fowler.activate = 0
                 fowler.save()
         else:
-            response_xml = wechat.response_text(content="回复'功能'了解本公众号提供的查询功能")
-            return HttpResponse(response_xml)
+            rsp_xml = wechat.response_text(content="回复'功能'了解本公众号提供的查询功能")
+            return HttpResponse(rsp_xml)
 
 
 
