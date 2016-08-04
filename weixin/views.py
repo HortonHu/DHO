@@ -79,7 +79,14 @@ class Weixin(View):
         elif isinstance(wechat.message, ImageMessage):
             picurl = wechat.message.picurl
             media_id = wechat.message.media_id
-            rsp_xml = wechat.response_image(media_id)
+            rsp_xml = wechat.response_image(media_id=media_id)
+            return HttpResponse(rsp_xml)
+
+        elif isinstance(wechat.message, VoiceMessage):
+            media_id = wechat.message.media_id
+            format = wechat.message.format
+            recognition = wechat.message.recognition
+            rsp_xml = wechat.response_voice(media_id=media_id)
             return HttpResponse(rsp_xml)
 
         elif isinstance(wechat.message, EventMessage):

@@ -1,0 +1,10 @@
+<xml>
+<ToUserName><![CDATA[火辣辣的清凉油]]></ToUserName>
+<FromUserName><![CDATA[测试用户]]></FromUserName>
+<CreateTime>1357290913</CreateTime>
+<MsgType><![CDATA[voice]]></MsgType>
+<MediaId><![CDATA[media_id]]></MediaId>
+<Format><![CDATA[Format]]></Format>
+<Recognition><![CDATA[腾讯微信团队]]></Recognition>
+<MsgId>1234567890123456</MsgId>
+</xml>
