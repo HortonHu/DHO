@@ -101,7 +101,7 @@ class Weixin(View):
             title = wechat.message.title
             description = wechat.message.description
             url = wechat.message.url
-            rsp_xml = wechat.response_text(content='\n'.join([url, title, description]), escape=True)
+            rsp_xml = wechat.response_text(content=' '.join([url, title, description]))
             return HttpResponse(rsp_xml)
 
         elif isinstance(wechat.message, EventMessage):
