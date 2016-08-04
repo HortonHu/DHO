@@ -67,9 +67,9 @@ class Weixin(View):
             return HttpResponse(rsp_xml)
 
         elif isinstance(wechat.message, LocationMessage):
-            location = wechat.message.location              # Tuple(Location_X, Location_Y)
-            scale = wechat.message.scale                    # 地图缩放大小
-            label = wechat.message.label                    # 地理位置
+            location = wechat.message.location
+            scale = wechat.message.scale
+            label = wechat.message.label
 
             loc = Location(fowler=fowler, x=location[0], y=location[1], label=label)
             loc.save()
