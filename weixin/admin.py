@@ -3,13 +3,23 @@ from django.contrib import admin
 from .models import Fowler, Dialog, Location, Function
 
 
+class DialogInLine(admin.TabularInline):
+    model = Dialog
+    extra = 0
+
+
+class LocationInLine(admin.TabularInline):
+    model = Location
+    extra = 0
+
+
 class FowlerAdmin(admin.ModelAdmin):
     list_display = ('OpenID', 'follow_time')
     search_fields = ('OpenID', 'follow_time')
     list_filter = ('follow_time',)
     date_hierarchy = 'follow_time'
 
-    # fields = ('follow_time', )
+    inlines = [DialogInLine, LocationInLine]
 
 
 class DialogAdmin(admin.ModelAdmin):

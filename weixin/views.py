@@ -57,9 +57,9 @@ class Weixin(View):
             if content in keywords:
                 reply = Function.objects.get(keyword=content).explain
             elif content == "功能":
-                reply = "本公众号支持的回复有： \n" + " ".join(keywords)
+                reply = "本公众号支持的回复有： \n" + "，".join(keywords)
             else:
-                reply = "回复'功能'了解本公众号提供的查询功能"
+                reply = "回复'功能'了解本公众号提供的全部功能"
             dialog = Dialog(message=content, reply=reply, fowler=fowler)
             dialog.save()
             rsp_xml = wechat.response_text(content=reply, escape=True)
@@ -79,14 +79,14 @@ class Weixin(View):
             if wechat.message.type == 'subscribe':
                 fowler.activate = 1
                 fowler.save()
-                rsp_xml = wechat.response_text(content="欢迎关注本公众号\n回复'功能'了解本公众号提供的查询功能",
+                rsp_xml = wechat.response_text(content="欢迎关注本公众号\n回复'功能'了解本公众号提供的全部功能",
                                                escape=True)
                 return HttpResponse(rsp_xml)
             elif wechat.message.type == 'unsubscribe':
                 fowler.activate = 0
                 fowler.save()
         else:
-            rsp_xml = wechat.response_text(content="回复'功能'了解本公众号提供的查询功能")
+            rsp_xml = wechat.response_text(content="回复'功能'了解本公众号提供的全部功能")
             return HttpResponse(rsp_xml)
 
 
