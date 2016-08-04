@@ -18,7 +18,7 @@ class Fowler(models.Model):
 
 
 class Dialog(models.Model):
-    fowler = models.ForeignKey(Fowler, on_delete=models.CASCADE)
+    fowler = models.ForeignKey(Fowler, on_delete=models.CASCADE, verbose_name='用户')
     message = models.CharField(max_length=200, verbose_name='用户发送信息')
     reply = models.CharField(max_length=200, verbose_name='回复信息')
     time = models.DateTimeField(auto_now=True, verbose_name='时间')
@@ -32,7 +32,7 @@ class Dialog(models.Model):
 
 
 class Location(models.Model):
-    fowler = models.ForeignKey(Fowler, on_delete=models.CASCADE)
+    fowler = models.ForeignKey(Fowler, on_delete=models.CASCADE, verbose_name='用户')
     x = models.FloatField(verbose_name='经度')
     y = models.FloatField(verbose_name='纬度')
     label = models.CharField(max_length=100, verbose_name='地理位置')

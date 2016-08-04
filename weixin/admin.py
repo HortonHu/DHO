@@ -12,8 +12,24 @@ class FowlerAdmin(admin.ModelAdmin):
     # fields = ('follow_time', )
 
 
+class DialogAdmin(admin.ModelAdmin):
+    list_display = ('fowler', 'message', 'reply', 'time')
+    list_filter = ('time', 'fowler', )
+    search_fields = ('message', 'reply')
+
+
+class LocationAdmin(admin.ModelAdmin):
+    list_display = ('fowler', 'label', 'x', 'y', 'time')
+    list_filter = ('time', 'label', )
+    search_fields = ('label', )
+
+
+class FunctionAdmin(admin.ModelAdmin):
+    list_display = ('keyword', 'explain')
+
+
 admin.site.register(Fowler, FowlerAdmin)
-admin.site.register(Dialog)
-admin.site.register(Location)
-admin.site.register(Function)
+admin.site.register(Dialog, DialogAdmin)
+admin.site.register(Location, LocationAdmin)
+admin.site.register(Function, FunctionAdmin)
 
