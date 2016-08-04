@@ -97,6 +97,13 @@ class Weixin(View):
                                             description='视频描述是thumb_media_id:' + str(thumb_media_id))
             return HttpResponse(rsp_xml)
 
+        elif isinstance(wechat.message, LinkMessage):
+            title = wechat.message.title
+            description = wechat.message.description
+            url = wechat.message.url
+            rsp_xml = wechat.response_text(content='\n'.join([url, title, description]), escape=True)
+            return HttpResponse(rsp_xml)
+
         elif isinstance(wechat.message, EventMessage):
             if wechat.message.type == 'subscribe':
                 fowler.activate = 1
