@@ -10,7 +10,8 @@ from models import Fowler, Dialog, Location, Function
 
 from wechat_sdk import WechatConf, WechatBasic
 from wechat_sdk.exceptions import ParseError
-from wechat_sdk.messages import TextMessage, LocationMessage, EventMessage
+from wechat_sdk.messages import TextMessage, LocationMessage, EventMessage, ImageMessage, VoiceMessage, \
+    VideoMessage, ShortVideoMessage, LinkMessage
 
 # 微信SDK配置
 conf = WechatConf(token='dfsdsg1g23s1gs53',
@@ -73,6 +74,12 @@ class Weixin(View):
             loc = Location(fowler=fowler, x=location[0], y=location[1], label=label)
             loc.save()
             rsp_xml = wechat.response_text(content="已收到您的地理位置")
+            return HttpResponse(rsp_xml)
+
+        elif isinstance(wechat.message, ImageMessage):
+            picurl = wechat.message.picurl
+            media_id = wechat.message.media_id
+            rsp_xml = wechat.response_image(media_id)
             return HttpResponse(rsp_xml)
 
         elif isinstance(wechat.message, EventMessage):
