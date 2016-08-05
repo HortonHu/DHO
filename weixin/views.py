@@ -129,7 +129,10 @@ class Token(View):
     def dispatch(self, *args, **kwargs):
         return super(Token, self).dispatch(*args, **kwargs)
 
-    def get(self):
-        access_token = wechat.get_access_token()
-        HttpResponse(access_token)
+    def get(self, request):
+        try:
+            access_token = wechat.get_access_token()
+        except Exception, e:
+            access_token = 'Error is %s' % e
+        return HttpResponse(access_token)
 

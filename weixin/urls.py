@@ -6,5 +6,5 @@ from .views import Weixin, Token
 
 urlpatterns = [
     url(r'^$', Weixin.as_view(), name='weixin'),
-    url(r'token/^$', Token.as_view(), name='token'),
+    url(r'^token/$', Token.as_view(), name='token'),
 ]
