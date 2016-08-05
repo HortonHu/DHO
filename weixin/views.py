@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
+import json
 
 from django.http.response import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -131,7 +132,7 @@ class Token(View):
 
     def get(self, request):
         try:
-            access_token = wechat.get_access_token()
+            access_token = json.dumps(wechat.get_access_token())
         except Exception, e:
             access_token = 'Error is %s' % e
         return HttpResponse(access_token)
