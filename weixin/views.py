@@ -13,11 +13,12 @@ from wechat_sdk.exceptions import ParseError
 from wechat_sdk.messages import TextMessage, LocationMessage, EventMessage, ImageMessage, VoiceMessage, \
     VideoMessage, ShortVideoMessage, LinkMessage
 
+from weixin_conf import token, appid, appsecret, encrypt_mode
 # 微信SDK配置
-conf = WechatConf(token='dfsdsg1g23s1gs53',
-                  appid='wxbc1c4c2e398996f7',
-                  appsecret='42b511b04df169de9c90e5b9509a1919',
-                  encrypt_mode='normal',
+conf = WechatConf(token=token,
+                  appid=appid,
+                  appsecret=appsecret,
+                  encrypt_mode=encrypt_mode,
                   )
 wechat = WechatBasic(conf=conf)
 
