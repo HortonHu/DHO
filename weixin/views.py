@@ -62,8 +62,7 @@ class Weixin(View):
                 reply = "本公众号支持的回复有： \n" + "，".join(keywords)
             else:
                 reply = "回复'功能'了解本公众号提供的全部功能"
-            dialog = Dialog(message=content, reply=reply, fowler=fowler)
-            dialog.save()
+            self.save_dialog(content=content, reply=reply, fowler=fowler)
             rsp_xml = wechat.response_text(content=reply, escape=True)
             return HttpResponse(rsp_xml)
 
@@ -119,5 +118,18 @@ class Weixin(View):
             rsp_xml = wechat.response_text(content="回复'功能'了解本公众号提供的全部功能")
             return HttpResponse(rsp_xml)
 
+    @staticmethod
+    def save_dialog(content, reply, fowler):
+        dialog = Dialog(message=content, reply=reply, fowler=fowler)
+        dialog.save()
 
+
+class Token(View):
+    @csrf_exempt
+    def dispatch(self, *args, **kwargs):
+        return super(Token, self).dispatch(*args, **kwargs)
+
+    def get(self):
+        access_token = wechat.get_access_token()
+        HttpResponse(access_token)
 
